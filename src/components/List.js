@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/css';
-import { ResultsLayoutByCategory } from '@appbaseio/enterprise-search-ui';
-
+import { ReactiveComponentPrivate } from '@appbaseio/reactivesearch';
+import { Link } from 'react-router-dom/cjs/react-router-dom';
 import getPreferences from '../utils/preferences';
 
 /*
@@ -30,8 +30,9 @@ const List = (props) => {
 	return (
 		<React.Fragment>
 			{title && <h2 className={headingStyles}>{title}</h2>}
-			<ResultsLayoutByCategory
+			<ReactiveComponentPrivate
 				preferences={preferences}
+				componentId="search"
 				componentProps={{
 					innerClass: {
 						pagination: css({
@@ -44,6 +45,39 @@ const List = (props) => {
 					},
 					className: listStyles,
 				}}
+				render={({ data }) => (
+					<div
+						className="border"
+						style={{
+							maxWidth: '50%',
+						}}
+					>
+						{data.map((item) => (
+							<Link
+								to={`/search/${item._id}}`}
+								style={{
+									marginTop: '35px',
+									paddingBottom: '15px',
+									display: 'block',
+									borderBottom: 'solid #CFD8DC 1px',
+								}}
+							>
+								<div>
+									<h2>{item.title}</h2>
+									<img
+										src={item.poster_path}
+										alt=""
+										style={{
+											maxWidth: '100%',
+											marginBottom: '25px',
+											marginTop: '15px',
+										}}
+									/>
+								</div>
+							</Link>
+						))}
+					</div>
+				)}
 			/>
 		</React.Fragment>
 	);
