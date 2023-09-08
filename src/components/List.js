@@ -80,6 +80,20 @@ const List = (props) => {
 										}}
 									/>
 									<h2>{item.title}</h2>
+									<p
+										style={{
+											marginTop: '5px',
+										}}
+									>
+										<span
+											style={{
+												fontWeight: 'bold',
+											}}
+										>
+											Votes
+										</span>{' '}
+										{item.vote_count}
+									</p>
 								</div>
 							</Link>
 						))}
