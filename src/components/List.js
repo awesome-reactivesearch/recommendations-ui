@@ -49,7 +49,9 @@ const List = (props) => {
 					<div
 						className="border"
 						style={{
-							maxWidth: '50%',
+							maxWidth: '100%',
+							display: 'flex',
+							flexWrap: 'wrap',
 						}}
 					>
 						{data.map((item) => (
@@ -60,10 +62,14 @@ const List = (props) => {
 									paddingBottom: '15px',
 									display: 'block',
 									borderBottom: 'solid #CFD8DC 1px',
+									maxWidth: '25%',
 								}}
 							>
-								<div>
-									<h2>{item.title}</h2>
+								<div
+									style={{
+										padding: '15px',
+									}}
+								>
 									<img
 										src={item.poster_path}
 										alt=""
@@ -73,6 +79,7 @@ const List = (props) => {
 											marginTop: '15px',
 										}}
 									/>
+									<h2>{item.title}</h2>
 								</div>
 							</Link>
 						))}
