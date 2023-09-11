@@ -56,7 +56,7 @@ const List = (props) => {
 					>
 						{data.map((item) => (
 							<Link
-								to={`/search/${item._id}}`}
+								to={`/detail/${item._id}`}
 								style={{
 									marginTop: '35px',
 									paddingBottom: '15px',

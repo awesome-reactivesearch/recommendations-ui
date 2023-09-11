@@ -48,9 +48,9 @@ const preferences = getPreferences();
 const globalSettings = preferences.globalSettings ? preferences.globalSettings : {};
 const logoSettings = globalSettings.meta.branding;
 
-const Navbar = ({ dataSearchProps, history, classes, page, searchComponent }) => {
+const Navbar = ({ dataSearchProps, history, classes, page }) => {
 	return (
-		<AppBar position={searchComponent.showSearchAs || 'sticky'} className={classes.appBar}>
+		<AppBar position="sticky" className={classes.appBar}>
 			<a href="/" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 				<span className={logoStyles}>
 					{logoSettings.logoUrl ? (

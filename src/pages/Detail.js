@@ -4,10 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { css } from '@emotion/css';
 import { withStyles, Grid, CircularProgress } from '@material-ui/core';
+import { URL, INDEX_CRED, APP } from '../constants/index';
 
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 
-import { getDescriptionFromAPI } from '../utils';
+// import { getDescriptionFromAPI } from '../utils';
 
 const notFound = css`
 	display: flex;
@@ -69,45 +70,24 @@ class Detail extends React.Component {
 		}
 	}
 
-	getLink = () => {
-		const {
-			location: {
-				state: { item },
-			},
-		} = this.props;
-		const parsedTitle = item.title && item.title.split(' ').join('+');
-
-		return `https://www.google.com/search?q=${parsedTitle}`;
-	};
-
 	loadDetail = async () => {
 		const {
-			location: {
-				state: { item },
+			match: {
+				params: { id },
 			},
 		} = this.props;
-		this.setState({
-			isLoading: true,
-			item: { title: '', description: '', image: '', price: '' },
-		});
 
-		if (item.title) {
-			this.setState({
-				item,
-				isLoading: false,
-				loadingDescription: true,
-			});
-			const description = await getDescriptionFromAPI(item.title);
-			this.setState({
-				item: { ...item, description: description || item.description },
-				isLoading: false,
-				loadingDescription: false,
-			});
-		} else {
-			this.setState({
-				isLoading: false,
-			});
-		}
+		const response = await fetch(`${URL}/${APP}/_doc/${id}`, {
+			headers: {
+				Authorization: `Basic ${btoa(INDEX_CRED)}`,
+			},
+		});
+		const responseJson = await response.json();
+
+		this.setState({
+			item: responseJson._source,
+			isLoading: false,
+		});
 	};
 
 	render() {
@@ -118,7 +98,7 @@ class Detail extends React.Component {
 		/* eslint-disable no-nested-ternary */
 		return (
 			<React.Fragment>
-				<Navbar hideShowButton={false} page="search" />
+				{/* <Navbar hideShowButton={false} page="search" /> */}
 				{isLoading ? (
 					<div
 						className={spinner}
@@ -145,41 +125,44 @@ class Detail extends React.Component {
 				) : item ? (
 					<Grid container spacing={24} className={classes.root}>
 						<Grid item md={2} sm={4}>
-							<img style={{ width: '100%' }} src={item.image} alt={item.title} />
+							<img
+								style={{ width: '100%' }}
+								src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
+								alt={item.title}
+							/>
 						</Grid>
 						<Grid item md={10} sm={12}>
 							<Typography component="h5" variant="h5" color="textPrimary">
 								{item.title}
 							</Typography>
-							<Typography component="h6" variant="h6" color="textSecondary">
-								{item.price}
-							</Typography>
-							<Typography component="p" variant="h6" color="textSecondary">
-								{loadingDescription ? (
-									<div>
-										<div
-											style={{
-												marginLeft: '35px',
-											}}
-										>
-											<CircularProgress />
-										</div>
 
-										<Typography
-											component="h6"
-											variant="body2"
-											color="textSecondary"
-										>
-											fetching description...
-										</Typography>
-									</div>
-								) : (
-									<p>{item.description}</p>
-								)}
+							<Typography
+								style={{ marginTop: '5px' }}
+								component="p"
+								variant="h6"
+								color="textSecondary"
+							>
+								<p>{item.overview}</p>
 							</Typography>
-							<a href={this.getLink()} target="_blank" rel="noopener noreferrer">
+							<Typography
+								style={{ marginTop: '5px' }}
+								component="p"
+								variant="h6"
+								color="textSecondary"
+							>
+								Vote Count: {item.vote_count}
+							</Typography>
+							<Typography
+								style={{ fontWeight: 'bold' }}
+								component="p"
+								variant="p"
+								color="textSecondary"
+							>
+								{item.release_date}
+							</Typography>
+							{/* <a href={this.getLink()} target="_blank" rel="noopener noreferrer">
 								Search on Web
-							</a>
+							</a> */}
 						</Grid>
 					</Grid>
 				) : (
