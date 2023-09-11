@@ -179,9 +179,10 @@ const Home = ({ classes }) => {
 						)}
 					</span>
 					{searchComponent.showSearchAs === 'sticky' ? (
-						<div style={{ width: '20%', color: 'black' }}>
+						<div style={{ width: '40%', color: 'black' }}>
 							<ReactiveComponent
 								componentId="search"
+								autosuggest
 								preferencesPath="pageSettings.pages.home.componentSettings.search"
 								onValueSelected={(value) => {
 									history.push(`/search/?search="${value}"`);

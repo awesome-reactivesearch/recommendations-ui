@@ -98,7 +98,7 @@ class Detail extends React.Component {
 	getRecommendations = async (item) => {
 		const query = item.title;
 
-		const response = await fetch(`${URL}/${APP}/_reactivesearch`, {
+		const response = await fetch(`${URL}/movies-recommendation/_reactivesearch`, {
 			headers: {
 				Authorization: `Basic ${btoa(CRED)}`,
 			},
@@ -108,9 +108,13 @@ class Detail extends React.Component {
 					{
 						id: 'search',
 						value: query,
-						dataField: ['title', 'overview'],
+						vectorDataField: 'vector_data',
+						excludeFields: ['vector_data'],
 					},
 				],
+				settings: {
+					backend: 'opensearch',
+				},
 			}),
 		});
 		const responseJson = await response.json();
@@ -224,6 +228,7 @@ class Detail extends React.Component {
 							style={{
 								paddingTop: '35px',
 								borderBottom: '1px solid #CFD8DC',
+								textAlign: 'center',
 							}}
 						>
 							Recommendations
