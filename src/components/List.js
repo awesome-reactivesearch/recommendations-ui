@@ -31,8 +31,8 @@ const List = (props) => {
 		<React.Fragment>
 			{title && <h2 className={headingStyles}>{title}</h2>}
 			<ReactiveComponentPrivate
-				preferences={preferences}
-				componentId="search"
+				preferencesPath={`pageSettings.pages.${page}.componentSettings.result`}
+				componentId="result"
 				componentProps={{
 					innerClass: {
 						pagination: css({
