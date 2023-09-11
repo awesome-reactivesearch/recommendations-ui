@@ -4,7 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { css } from '@emotion/css';
 import { withStyles, Grid, CircularProgress } from '@material-ui/core';
-import { URL, INDEX_CRED, APP } from '../constants/index';
+import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { URL, INDEX_CRED, APP, CRED } from '../constants/index';
 
 // import Navbar from '../components/Navbar';
 
@@ -50,6 +51,8 @@ class Detail extends React.Component {
 			isLoading: true,
 			item: { title: '', description: '', image: '', price: '' },
 			loadingDescription: false,
+			isRecommendationLoading: true,
+			recommendations: [],
 		};
 	}
 
@@ -88,11 +91,40 @@ class Detail extends React.Component {
 			item: responseJson._source,
 			isLoading: false,
 		});
+
+		this.getRecommendations(responseJson._source);
+	};
+
+	getRecommendations = async (item) => {
+		const query = item.title;
+
+		const response = await fetch(`${URL}/${APP}/_reactivesearch`, {
+			headers: {
+				Authorization: `Basic ${btoa(CRED)}`,
+			},
+			method: 'POST',
+			body: JSON.stringify({
+				query: [
+					{
+						id: 'search',
+						value: query,
+						dataField: ['title', 'overview'],
+					},
+				],
+			}),
+		});
+		const responseJson = await response.json();
+
+		this.setState({
+			isRecommendationLoading: false,
+			recommendations: responseJson.search.hits.hits,
+		});
 	};
 
 	render() {
 		// eslint-disable-next-line
-		const { isLoading, item, loadingDescription } = this.state;
+		const { isLoading, item, loadingDescription, isRecommendationLoading, recommendations } =
+			this.state;
 		const { history, classes } = this.props;
 
 		/* eslint-disable no-nested-ternary */
@@ -175,6 +207,81 @@ class Detail extends React.Component {
 							<Icon type="arrow-left" />
 							Go back
 						</Button>
+					</div>
+				)}
+				{isRecommendationLoading ? (
+					<div>Fetching Recommendations...</div>
+				) : (
+					<div
+						id="recommendations--wrapper"
+						style={{
+							maxWidth: '80%',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+						}}
+					>
+						<h1
+							style={{
+								paddingTop: '35px',
+								borderBottom: '1px solid #CFD8DC',
+							}}
+						>
+							Recommendations
+						</h1>
+						<div
+							className="border"
+							style={{
+								maxWidth: '100%',
+								display: 'flex',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								flexWrap: 'wrap',
+							}}
+						>
+							{recommendations.map((rItem) => (
+								<Link
+									to={`/detail/${rItem._id}`}
+									style={{
+										marginTop: '35px',
+										paddingBottom: '15px',
+										display: 'block',
+										borderBottom: 'solid #CFD8DC 1px',
+										maxWidth: '25%',
+									}}
+								>
+									<div
+										style={{
+											padding: '15px',
+										}}
+									>
+										<img
+											src={rItem._source.poster_path}
+											alt=""
+											style={{
+												maxWidth: '100%',
+												marginBottom: '25px',
+												marginTop: '15px',
+											}}
+										/>
+										<h2>{rItem._source.title}</h2>
+										<p
+											style={{
+												marginTop: '5px',
+											}}
+										>
+											<span
+												style={{
+													fontWeight: 'bold',
+												}}
+											>
+												Votes
+											</span>{' '}
+											{rItem._source.vote_count}
+										</p>
+									</div>
+								</Link>
+							))}
+						</div>
 					</div>
 				)}
 			</React.Fragment>
