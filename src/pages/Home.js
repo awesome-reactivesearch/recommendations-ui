@@ -182,7 +182,6 @@ const Home = ({ classes }) => {
 						<div style={{ width: '40%', color: 'black' }}>
 							<ReactiveComponent
 								componentId="search"
-								autosuggest
 								preferencesPath="pageSettings.pages.home.componentSettings.search"
 								onValueSelected={(value) => {
 									history.push(`/search/?search="${value}"`);

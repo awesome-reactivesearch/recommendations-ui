@@ -73,7 +73,7 @@ const appbasePrefs = {
 							cssSelector: '',
 						},
 						rsConfig: {
-							autosuggest: true,
+							autosuggest: false,
 							enableAI: false,
 							AIUIConfig: {
 								showSourceDocuments: null,
