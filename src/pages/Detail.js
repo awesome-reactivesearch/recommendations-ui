@@ -291,9 +291,18 @@ class Detail extends React.Component {
 													fontWeight: 'bold',
 												}}
 											>
-												Votes
-											</span>{' '}
-											{rItem._source.vote_count}
+												☆ {item.vote_average}
+											</span>
+										</p>
+										<p
+											style={{
+												marginTop: '3px',
+												fontWeight: 'bold',
+												color: '#607D8B',
+											}}
+											id="date"
+										>
+											{item.genres.map((g) => `#${g}`).join(' ')}
 										</p>
 									</div>
 								</Link>
