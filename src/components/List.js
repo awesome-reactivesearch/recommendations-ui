@@ -94,6 +94,7 @@ const List = (props) => {
 											☆ {item.vote_average}
 										</span>
 									</p>
+									<p>{item.release_date}</p>
 									<p
 										style={{
 											marginTop: '3px',

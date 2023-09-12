@@ -191,8 +191,8 @@ const Home = ({ classes }) => {
 					) : null}
 				</AppBar>
 				<div className={headerStyles}>
-					<h1>The BookSearch App</h1>
-					<h2>Search Books & more.</h2>
+					<h1> Movie Recommendation App</h1>
+					<h2>Search movies & get recommendations</h2>
 					{searchComponent.showSearchAs !== 'sticky' ? (
 						<ReactiveComponent
 							componentId="search"
