@@ -186,7 +186,7 @@ class Detail extends React.Component {
 								variant="h6"
 								color="textSecondary"
 							>
-								Vote Count: {item.vote_count}
+								☆ {item.vote_average}
 							</Typography>
 							<Typography
 								style={{ fontWeight: 'bold' }}
@@ -196,6 +196,16 @@ class Detail extends React.Component {
 							>
 								{item.release_date}
 							</Typography>
+							<div
+								id="genres"
+								style={{
+									marginTop: '20px',
+								}}
+							>
+								<Typography component="p" variant="p" color="textSecondary">
+									{item.genres.map((g) => `#${g}`).join(' ')}
+								</Typography>
+							</div>
 							{/* <a href={this.getLink()} target="_blank" rel="noopener noreferrer">
 								Search on Web
 							</a> */}

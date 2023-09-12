@@ -34,3 +34,18 @@ export const getPagePreferences = (page) => {
 		mongoDBSettings,
 	};
 };
+
+export const sanitizeHTMLAndCombineStrings = (inputStrings) => {
+	// Combine all input strings into a single string
+	const combinedString = inputStrings.join(' ');
+	// Remove HTML tags using a regular expression
+	const withoutTags = combinedString.replace(/<[^>]+>/g, '');
+
+	// Remove multiple consecutive spaces and newlines
+	let finalString = withoutTags.replace(/\s{2,}/g, ' ').trim();
+
+	if (finalString && finalString.startsWith('#')) {
+		finalString = finalString.split('&gt;').slice(1).join('&gt;');
+	}
+	return finalString;
+};

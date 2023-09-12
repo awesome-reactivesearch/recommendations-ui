@@ -3,6 +3,7 @@ import { css } from '@emotion/css';
 import { ReactiveComponentPrivate } from '@appbaseio/reactivesearch';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import getPreferences from '../utils/preferences';
+import { sanitizeHTMLAndCombineStrings } from '../pages/utils';
 
 /*
 	This component is used to generate Results via List.
@@ -79,7 +80,7 @@ const List = (props) => {
 											marginTop: '15px',
 										}}
 									/>
-									<h2>{item.title}</h2>
+									<h2>{sanitizeHTMLAndCombineStrings([item.title])}</h2>
 									<p
 										style={{
 											marginTop: '5px',
@@ -90,9 +91,18 @@ const List = (props) => {
 												fontWeight: 'bold',
 											}}
 										>
-											Votes
-										</span>{' '}
-										{item.vote_count}
+											☆ {item.vote_average}
+										</span>
+									</p>
+									<p
+										style={{
+											marginTop: '3px',
+											fontWeight: 'bold',
+											color: '#607D8B',
+										}}
+										id="date"
+									>
+										{item.genres.map((g) => `#${g}`).join(' ')}
 									</p>
 								</div>
 							</Link>
