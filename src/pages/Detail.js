@@ -121,7 +121,9 @@ class Detail extends React.Component {
 
 		this.setState({
 			isRecommendationLoading: false,
-			recommendations: responseJson.search.hits.hits,
+			recommendations: responseJson.search.hits.hits.filter(
+				(r) => r._source.id !== item.id && r._source.overview !== ' ',
+			),
 		});
 	};
 

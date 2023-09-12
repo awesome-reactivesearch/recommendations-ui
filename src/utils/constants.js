@@ -1,5 +1,5 @@
 const appbasePrefs = {
-	name: 'Search movies-vector + Multi-page Search App',
+	name: 'Search Movies',
 	description: '',
 	pipeline: 'movies-vector',
 	backend: 'elasticsearch',
@@ -73,7 +73,7 @@ const appbasePrefs = {
 							cssSelector: '',
 						},
 						rsConfig: {
-							autosuggest: false,
+							autosuggest: true,
 							enableAI: false,
 							AIUIConfig: {
 								showSourceDocuments: null,

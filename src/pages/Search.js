@@ -6,17 +6,15 @@ import {
 	SelectedFilters,
 } from '@appbaseio/reactivesearch';
 import { withStyles } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 
 import List from '../components/List';
 import Navbar from '../components/Navbar';
-import Filters from '../components/Filters';
 import { getPagePreferences } from './utils';
 import getPreferences from '../utils/preferences';
 
-const drawerWidth = 300;
+const drawerWidth = 0;
 
 const styles = (theme) => ({
 	root: {
@@ -75,9 +73,6 @@ const themeSettings = Object.assign(
 
 const isTransformRequest = preferences.backend === 'fusion' || preferences.backend === 'mongodb';
 
-const nonTabDataListComponents = otherComponents.filter(
-	(component) => component.rsConfig.componentType !== 'TABDATALIST',
-);
 const tabDataLists = otherComponents.filter(
 	(component) => component.rsConfig.componentType === 'TABDATALIST',
 );
@@ -95,7 +90,6 @@ class Search extends React.Component {
 	};
 
 	render() {
-		const { isDrawer } = this.state;
 		const { classes } = this.props;
 		const isSmallScreen = window.innerWidth < 576;
 		return (
@@ -138,19 +132,6 @@ class Search extends React.Component {
 					page="search"
 					searchComponent={searchComponent}
 				/>
-				<Drawer
-					className={classes.drawer}
-					variant={isSmallScreen ? 'temporary' : 'permanent'}
-					open={isSmallScreen ? isDrawer : true}
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-					onClose={isSmallScreen ? this.handleDrawer : undefined}
-				>
-					<div className={classes.toolbar} />
-					<Filters components={nonTabDataListComponents} />
-				</Drawer>
-
 				<main
 					className={classes.content}
 					style={{ marginLeft: isSmallScreen ? 0 : drawerWidth }}
